@@ -67,6 +67,10 @@ local config = function()
 	local flake8 = require("efmls-configs.linters.flake8")
 	local black = require("efmls-configs.formatters.black")
 
+	-- go
+	local golangci_lint = require("efmls-configs.linters.golangci_lint")
+	local gofmt = require("efmls-configs.formatters.gofmt")
+
 	-- configure efm server
 	lspconfig.efm.setup({
 		filetypes = {
@@ -103,6 +107,7 @@ local config = function()
 				-- solidity = { solhint, prettier_d },
 				lua = { luacheck, stylua },
 				python = { flake8, black },
+				go = { golangci_lint, gofmt},
 				-- typescript = { eslint, prettier_d },
 				-- json = { eslint, fixjson },
 				-- jsonc = { eslint, fixjson },
