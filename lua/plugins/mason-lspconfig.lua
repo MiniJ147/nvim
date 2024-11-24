@@ -19,6 +19,7 @@ local mason_lspconfig = {
 		ensure_installed = {
 			-- "solidity_ls",
 			"efm",
+            "gopls",
 			-- "bashls",
 			-- "ts_ls",
 			-- "tailwindcss",

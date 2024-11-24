@@ -51,6 +51,14 @@ local config = function()
 		},
 	})
 
+	--go
+	lspconfig.gopls.setup({
+		capabilities = capabilities,
+		on_attach = on_attach,
+		cmd = { "gopls" },
+		filetypes = { "go", "gomod", "gowork", "gotmpl" },
+	})
+
 	-- lua
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
@@ -64,6 +72,7 @@ local config = function()
 		filetypes = {
 			-- "solidity",
 			"lua",
+			"go",
 			"python",
 			-- "json",
 			-- "jsonc",
