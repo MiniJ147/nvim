@@ -59,6 +59,43 @@ local config = function()
 		filetypes = { "go", "gomod", "gowork", "gotmpl" },
 	})
 
+	-- c/cpp
+	lspconfig.clangd.setup({
+		capabilities = capabilities,
+		on_attach = on_attach,
+		cmd = { "clangd" },
+		filetypes = { "c", "c++", "cpp", "h", "hpp" },
+	})
+
+	lspconfig.jsonls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = {"json"},
+    })
+
+	lspconfig.rust_analyzer.setup({
+		capabilities = capabilities,
+		on_attach = on_attach,
+		settings = {
+			["rust-analyzer"] = {
+				imports = {
+					granularity = {
+						group = "module",
+					},
+					prefix = "self",
+				},
+				cargo = {
+					buildScripts = {
+						enable = true,
+					},
+				},
+				procMacro = {
+					enable = true,
+				},
+			},
+		},
+	})
+
 	-- lua
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
@@ -71,6 +108,13 @@ local config = function()
 	local golangci_lint = require("efmls-configs.linters.golangci_lint")
 	local gofmt = require("efmls-configs.formatters.gofmt")
 
+	-- rust
+	-- local bacon = require("efmls-configs.linters.bacon")
+
+	-- json
+	local eslint = require("efmls-configs.linters.eslint")
+	local fixjson = require("efmls-configs.formatters.fixjson")
+
 	-- configure efm server
 	lspconfig.efm.setup({
 		filetypes = {
@@ -78,7 +122,8 @@ local config = function()
 			"lua",
 			"go",
 			"python",
-			-- "json",
+			"rust",
+			"json",
 			-- "jsonc",
 			-- "sh",
 			-- "javascript",
@@ -105,11 +150,12 @@ local config = function()
 		settings = {
 			languages = {
 				-- solidity = { solhint, prettier_d },
+				-- rust = { bacon },
 				lua = { luacheck, stylua },
 				python = { flake8, black },
-				go = { golangci_lint, gofmt},
+				go = { golangci_lint, gofmt },
 				-- typescript = { eslint, prettier_d },
-				-- json = { eslint, fixjson },
+				json = { eslint, fixjson },
 				-- jsonc = { eslint, fixjson },
 				-- sh = { shellcheck, shfmt },
 				-- javascript = { eslint, prettier_d },
