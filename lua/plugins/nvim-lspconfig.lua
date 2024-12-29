@@ -2,8 +2,17 @@ local on_attach = require("util.lsp").on_attach
 
 local config = function()
 	require("neoconf").setup({})
-
 	local lspconfig = require("lspconfig")
+
+	-- other config
+	vim.diagnostic.config({
+		virtual_text = false,
+	})
+
+	-- Show line diagnostics automatically in hover window
+	vim.o.updatetime = 250
+	vim.cmd([[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]])
+	--
 
 	local signs = { Error = "✘", Warn = "▲", Hint = "●", Info = "●" }
 	for type, icon in pairs(signs) do
@@ -68,10 +77,10 @@ local config = function()
 	})
 
 	lspconfig.jsonls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-        filetypes = {"json"},
-    })
+		capabilities = capabilities,
+		on_attach = on_attach,
+		filetypes = { "json" },
+	})
 
 	lspconfig.rust_analyzer.setup({
 		capabilities = capabilities,
