@@ -1,18 +1,55 @@
 local on_attach = require("util.lsp").on_attach
 
+local show_diagnostics_callback = function()
+	-- check to see if another floating window is active
+	-- if it is exit out of the function
+	-- this will prevent conflicts
+	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+		local config = vim.api.nvim_win_get_config(win)
+		if config.relative ~= "" then
+			-- A floating window is open, so skip showing diagnostics
+			return
+		end
+	end
+
+	local float_bufnr, float_wid = vim.diagnostic.open_float(nil, { focus = false })
+	if float_bufnr then
+		vim.diagnostic.config({
+			virtual_text = false,
+		})
+
+		vim.api.nvim_create_autocmd("WinClosed", {
+			callback = function(event)
+				if tonumber(event.file) == float_wid then
+					vim.diagnostic.config({
+						virtual_text = true,
+					})
+				end
+			end,
+			once = true,
+		})
+	end
+end
+
+local config_diagnostics = function()
+	vim.diagnostic.config({
+		virtual_text = true,
+	})
+
+	-- Show line diagnostics :w
+	-- automatically in hover window
+	vim.o.updatetime = 250
+	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+		pattern = "*",
+		callback = show_diagnostics_callback,
+	})
+end
+
 local config = function()
 	require("neoconf").setup({})
 	local lspconfig = require("lspconfig")
 
-	-- other config
-	vim.diagnostic.config({
-		virtual_text = false,
-	})
-
-	-- Show line diagnostics automatically in hover window
-	vim.o.updatetime = 250
-	vim.cmd([[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]])
-	--
+	config_diagnostics()
 
 	local signs = { Error = "✘", Warn = "▲", Hint = "●", Info = "●" }
 	for type, icon in pairs(signs) do

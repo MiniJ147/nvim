@@ -14,17 +14,17 @@ opt.ignorecase = true
 opt.smartcase = true -- checks for caplization
 opt.hlsearch = true -- highlights search
 
--- Apperance 
+-- Apperance
 opt.number = true
 opt.relativenumber = true
 opt.termguicolors = true -- support for colors throuhgout all terminal
-opt.colorcolumn = '100'
+opt.colorcolumn = "100"
 opt.signcolumn = "yes"
 opt.cmdheight = 1
 opt.scrolloff = 10 -- how close code can get to the bottom
 opt.completeopt = "menuone,noinsert,noselect" -- the box for autocomplete
 
--- Behaviour 
+-- Behaviour
 opt.hidden = true -- change buffers without saving
 opt.errorbells = false -- sound for error
 opt.swapfile = false
@@ -34,11 +34,14 @@ opt.undofile = false
 opt.backspace = "indent,eol,start"
 opt.splitright = true
 opt.splitbelow = true
-opt.autochdir = false 
+opt.autochdir = false
 opt.iskeyword:append("-")
-opt.mouse:append('a')
+opt.mouse:append("a")
 --opt.clipboard:append("unamedplus") -- copy and paste outside and insdie vim
 opt.guicursor =
-	"n-v-c:block,i-ci:ver30-iCursor-blinkwait300-blinkon200-blinkoff150,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175" 
+	"n-v-c:block,i-ci:ver30-iCursor-blinkwait300-blinkon200-blinkoff150,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 opt.modifiable = true
-opt.encoding="UTF-8"
+opt.encoding = "UTF-8"
+
+-- copying 
+vim.opt.clipboard:append("unnamedplus")
