@@ -142,6 +142,23 @@ local config = function()
 		},
 	})
 
+	lspconfig.ts_ls.setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+		filetypes = {
+			"typescript",
+			"typescriptreact",
+			"javascript",
+			"javascriptreact",
+		},
+		settings = {
+			typescript = {
+				indentStyle = "space",
+				indentSize = 2,
+			},
+		},
+	})
+
 	-- lua
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
@@ -161,6 +178,8 @@ local config = function()
 	local eslint = require("efmls-configs.linters.eslint")
 	local fixjson = require("efmls-configs.formatters.fixjson")
 
+    local prettier_d = require("efmls-configs.formatters.prettier_d")
+
 	-- configure efm server
 	lspconfig.efm.setup({
 		filetypes = {
@@ -172,10 +191,10 @@ local config = function()
 			"json",
 			-- "jsonc",
 			-- "sh",
-			-- "javascript",
-			-- "javascriptreact",
-			-- "typescript",
-			-- "typescriptreact",
+			"javascript",
+			"javascriptreact",
+			"typescript",
+			"typescriptreact",
 			-- "svelte",
 			-- "vue",
 			-- "markdown",
@@ -204,9 +223,9 @@ local config = function()
 				json = { eslint, fixjson },
 				-- jsonc = { eslint, fixjson },
 				-- sh = { shellcheck, shfmt },
-				-- javascript = { eslint, prettier_d },
-				-- javascriptreact = { eslint, prettier_d },
-				-- typescriptreact = { eslint, prettier_d },
+				javascript = { eslint, prettier_d },
+				javascriptreact = { eslint, prettier_d },
+				typescriptreact = { eslint, prettier_d },
 				-- svelte = { eslint, prettier_d },
 				-- vue = { eslint, prettier_d },
 				-- markdown = { prettier_d },
